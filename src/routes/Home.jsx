@@ -2,8 +2,8 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import requests, { options } from "../assets/requests";
 
 import { CarouselSkeleton, HeroSkeleton } from "../components/Skeleton";
+import Hero from "../components/Hero";
 import { useNavigate } from "react-router-dom";
-const Hero = lazy(() => import("../components/Hero"));
 const Carousel = lazy(() => import("../components/Carousel"));
 
 const Home = () => {
@@ -102,6 +102,12 @@ const Home = () => {
               />
             );
           })}
+
+          {/* <Carousel
+            collection={actionMovies}
+            name={"action movies"}
+            key={"action movies" || key}
+          /> */}
         </Suspense>
       </section>
     </>

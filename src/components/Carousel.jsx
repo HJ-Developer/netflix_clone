@@ -2,8 +2,6 @@ import { cred } from "../assets/requests";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import { useRef } from "react";
 
-import { LazyLoadImage } from "react-lazy-load-image-component";
-
 const Carousel = ({ collection, name }) => {
   const carouselRef = useRef(null);
   const scrollLeft = () => {
@@ -60,7 +58,7 @@ const Carousel = ({ collection, name }) => {
         {collection?.map((current) => {
           return (
             <li className="item" key={current?.id || _key++}>
-              <LazyLoadImage
+              <img
                 src={`${cred.thumbnail_url}${
                   current?.backdrop_path || current?.poster_path
                 }`}

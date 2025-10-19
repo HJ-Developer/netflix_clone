@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { cred } from "../assets/requests";
 import { InfoIcon, PlayIcon } from "lucide-react";
+// import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Hero = ({ movies }) => {
   const [current, setCurrent] = useState();
