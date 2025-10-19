@@ -1,0 +1,37 @@
+:root {
+  color-scheme: light dark;
+  /*        Theme: Light      */
+  /*    Menu    */
+  --navBackground: rgba(19, 17, 17, 0.932);
+
+  /*    Generic */
+  --text-light: rgba(255, 255, 255, 0.871);
+  --text-dark: #181b1b;
+  --text-highlight: rgba(229, 9, 20, 1);
+
+  --text-secondary: #6e6e6e;
+  --darkBackground: rgb(17, 16, 16);
+  --lightBackground: rgba(245, 245, 241, 1);
+  --opaqueBackground: rgba(0, 0, 0, 0.7);
+
+  --dark-red: #b20710;
+  --gray: #535353;
+  --btnBackground: linear-gradient(
+    90deg,
+    var(--text-highlight) 0%,
+    var(--dark-red) 100%
+  );
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --text: var(--text-light);
+    /* --background: var(--lightBackground); */
+    --background: var(--darkBackground);
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: var(--text-light);
+    --background: var(--darkBackground);
+  }
+}

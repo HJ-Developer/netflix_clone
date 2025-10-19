@@ -1,0 +1,121 @@
+._principal {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-image: url("./signin-background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: local;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+._principal::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(1px);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.6) 80%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+  -webkit-backdrop-filter: blur(1px);
+  /* z-index: 3; */
+}
+._principal > form {
+  width: fit-content;
+  max-width: 96vw;
+  height: fit-content;
+  position: absolute;
+  transform: translate(0, 0);
+  z-index: 1;
+  /* display: none; */
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  gap: 0.8ch;
+  /* background: rgba(0, 0, 0, 0.7); */
+  padding: 40px min(6vw, 40px);
+  border-radius: 4pt;
+  font-size: 16px;
+  text-transform: capitalize;
+  background: var(--opaqueBackground);
+  visibility: hidden;
+  opacity: 0;
+  display: flex;
+}
+._principal > form._current {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.4s ease;
+  transition: visibility 0.4 ease;
+}
+._principal > form > ._alert1,
+._principal > form > ._alert2 {
+  font-size: 14px;
+  color: var(--text-highlight);
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-weight: bold;
+  visibility: hidden;
+  transition: all 0.2s ease-out;
+}
+._principal > form > ._alert1.--visible,
+._principal > form > ._alert2.--visible {
+  visibility: visible;
+}
+._principal > form > h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+._principal > form > input {
+  width: 300px;
+  max-width: 98%;
+  height: 2.8rem;
+  padding: 5px 10px;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  transition: font-size 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 6px;
+  outline: none;
+  /* background: rgba(24, 24, 24, 0.7); */
+  background: #4646467c;
+  border: 1px solid #7575757c;
+}
+._principal > form > input.field:focus {
+  font-size: 1.09rem;
+}
+._principal > form > input[type="submit"] {
+  margin-top: 25px;
+  color: var(--text-light);
+  background-color: var(--text-highlight);
+  border-color: var(--dark-red);
+  text-transform: capitalize;
+  font-size: 1.2rem;
+  font-weight: bolder;
+  cursor: pointer;
+}
+._principal > form > input[type="submit"]:active {
+  transform: scale(0.9);
+}
+._principal > form > h3 {
+  color: var(--text-secondary);
+  font-weight: lighter;
+  text-align: center;
+}
+._principal > form ._link {
+  text-decoration: none;
+  color: var(--text-light);
+  padding: 5px 1ch;
+  font-weight: bolder;
+  cursor: pointer;
+}

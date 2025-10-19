@@ -1,0 +1,92 @@
+/*  Hero    */
+.hero.skeleton {
+  width: 100%;
+  height: 600px;
+  max-height: 92vh;
+  animation: pulse 1.5s infinite;
+  font-size: 14px;
+  display: flex;
+  flex-flow: column;
+  align-items: baseline;
+  justify-content: center;
+  padding: 0 10px;
+  gap: 5px;
+}
+.hero.skeleton .-title {
+  width: 8rem;
+  height: 2rem;
+}
+.hero.skeleton .-desc {
+  width: 48%;
+  max-width: 450px;
+  height: 4.2rem;
+  /* max-width: 300px; */
+}
+.hero.skeleton .-heroBtns {
+  display: flex;
+  flex-flow: row;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+.hero.skeleton .-heroBtns > .-btn {
+  width: 8rem;
+  height: 3.1em;
+}
+/*  Carousel  */
+.carousel.skeleton {
+  width: 100%;
+  height: fit-content;
+  padding: 10px 1rem;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  gap: 2px;
+  overflow-x: scroll;
+  animation: pulse 1.5s infinite;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.carousel.skeleton::-webkit-scrollbar {
+  display: none;
+}
+.carousel.skeleton .-item {
+  width: 210px;
+  height: 110px;
+  flex: 0 0 210px;
+}
+
+/*  Every   */
+
+.skeleton {
+  background-color: var(--text-secondary);
+}
+._skeleton {
+  display: block;
+  background-color: var(--text-light);
+  animation: pulse 1.5s infinite;
+  border: 1px solid var(--text-secondary);
+  outline: none;
+}
+._skeleton.--square {
+  border-radius: 0;
+}
+._skeleton.--rounded {
+  border-radius: 6pt;
+}
+._skeleton.--circular {
+  border-radius: 50%;
+}
+@keyframes pulse {
+  0% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
