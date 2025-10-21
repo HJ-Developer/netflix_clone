@@ -6,10 +6,12 @@ import Footer from "./components/Footer";
 import { HelmetProvider } from "react-helmet-async";
 import { RecoilRoot } from "recoil";
 import Player from "./components/Player";
+import { ToastContainer } from "react-toastify";
 
 const Menu = lazy(() => import("./components/Menu"));
 const Home = lazy(() => import("./routes/Home"));
 const Sign = lazy(() => import("./routes/Sign"));
+const Subscription = lazy(() => import("./routes/Subscription"));
 
 const App = (props) => {
   return (
@@ -19,6 +21,7 @@ const App = (props) => {
         <Suspense>
           <main id="mainContainer">
             <Outlet />
+            <ToastContainer />
           </main>
           <Footer />
         </Suspense>
@@ -48,6 +51,7 @@ const router = createBrowserRouter([
         path: "/movies",
         element: <Player />,
       },
+      { path: "/subscription", element: <Subscription /> },
     ],
   },
 ]);

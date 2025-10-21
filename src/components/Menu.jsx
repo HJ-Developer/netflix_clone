@@ -3,6 +3,7 @@ import { BellIcon, Search, User2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../assets/firebase";
+import { toast } from "react-toastify";
 
 const Menu = () => {
   const currentHash = window.location.pathname;
@@ -27,6 +28,31 @@ const Menu = () => {
     setTimeout(() => {
       navigate(path);
     }, 100);
+  };
+
+  const sign = () => {
+    return (
+      <header>
+        <nav id="menu" className="_translucend _compaq-plus">
+          <div>
+            <i className="logo --menu" onClick={() => handleNavigate("/")}></i>
+            <i
+              className="icon"
+              onClick={() => {
+                signOut(auth);
+                const notify = toast.success("Logging out...", {
+                  position: "bottom-right",
+                  autoClose: 1200,
+                });
+                setTimeout(() => navigate("/"), 1500);
+              }}
+            >
+              sign out
+            </i>
+          </div>
+        </nav>
+      </header>
+    );
   };
 
   const compaq = () => {
@@ -72,17 +98,13 @@ const Menu = () => {
                 <Search className="--search" />
               </i>
             </form>
-            <i
-              className="icon --notification"
-              onClick={() => {
-                signOut(auth);
-                localStorage.removeItem("user");
-                alert("signed out!");
-              }}
-            >
+            <i className="icon --notification">
               <BellIcon />
             </i>
-            <i className="icon --account">
+            <i
+              className="icon --account"
+              onClick={() => handleNavigate("/subscription")}
+            >
               <User2Icon />
             </i>
           </div>
@@ -91,8 +113,10 @@ const Menu = () => {
     );
   };
 
-  if (currentHash === "/sign" || currentHash === "/account") {
+  if (currentHash === "/sign") {
     return compaq();
+  } else if (currentHash === "/subscription" || currentHash === "/account") {
+    return sign();
   } else {
     return full();
   }

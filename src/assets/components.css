@@ -127,6 +127,19 @@
 #menu .btns .icon > *:hover {
   color: var(--text-highlight);
 }
+#menu._compaq-plus > div {
+  width: 100%;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+#menu._compaq-plus > div > .icon {
+  text-transform: capitalize;
+  font-weight: bolder;
+  cursor: pointer;
+}
+#menu._compaq-plus > div > .icon:hover {
+  color: var(--text-highlight);
+}
 
 /*  Home  */
 #hero {

@@ -6,7 +6,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../assets/firebase.js";
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
 
 const Sign = () => {
@@ -15,9 +15,9 @@ const Sign = () => {
     auth.onAuthStateChanged((user) => {
       setTimeout(() => {
         setUser(user);
-      }, 300);
+      }, 500);
     });
-  });
+  }, [user]);
   return user ? (
     <Navigate to={"/"} />
   ) : (
@@ -26,7 +26,6 @@ const Sign = () => {
         <title>Netflix - Sign in</title>
       </Helmet>
       <div className="_principal">
-        <ToastContainer />
         <Signin view="_current" />
         <Signup />
       </div>
@@ -88,11 +87,10 @@ const Signin = ({ view }) => {
                 autoClose: false,
               }
             );
-            await getDoc(doc(db, "users", user.uid)).then(
-              (data) => (user.displayName = data.get("userName"))
-            );
+            await getDoc(doc(db, "users", user.uid))
+              .then((data) => (user.displayName = data.get("userName")))
+              .then(() => navigate("/subscription"));
             // user.displayName = credentials.uName;
-            setTimeout(() => navigate("/"), 1500);
           } else {
             const notify = toast.error(
               "Failed to login! Please check your credentials",
