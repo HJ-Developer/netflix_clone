@@ -7,10 +7,10 @@ export const options = {
   },
 };
 export const cred = {
-  base_url: "https://api.themoviedb.org/3",
-  API_KEY: "994c97346ffb47f65bc4631f7d6259c9",
-  image_url: "https://image.tmdb.org/t/p/w200",
-  thumbnail_url: "https://image.tmdb.org/t/p/w342",
+  API_KEY: import.meta.env.VITE_tmbd_API_KEY,
+  base_url: import.meta.env.VITE_tmbd_base_url,
+  image_url: import.meta.env.VITE_tmbd_image_url,
+  thumbnail_url: import.meta.env.VITE_tmbd_thumbnail_url,
 };
 
 const requests = {
