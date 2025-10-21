@@ -2,8 +2,15 @@ import { cred } from "../assets/requests";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import { useRef } from "react";
 
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { ImageSkeleton } from "./Skeleton";
+import { useRecoilState } from "recoil";
+import { movieState, videoState } from "../assets/atom";
+
 const Carousel = ({ collection, name }) => {
   const carouselRef = useRef(null);
+  const [videoPopup, setVideoPopup] = useRecoilState(videoState);
+  const [currentMovie, setCurrentMovie] = useRecoilState(movieState);
   const scrollLeft = () => {
     carouselRef.current.scrollBy({
       left: Math.max(window.innerWidth / -0.8, -630),
@@ -57,13 +64,27 @@ const Carousel = ({ collection, name }) => {
       <ul className="_container" ref={carouselRef}>
         {collection?.map((current) => {
           return (
-            <li className="item" key={current?.id || _key++}>
-              <img
-                src={`${cred.thumbnail_url}${
-                  current?.backdrop_path || current?.poster_path
-                }`}
-                className="_card-cover"
-              />
+            <li
+              className="item"
+              key={current?.id || _key++}
+              id={current?.id}
+              onClick={() => {
+                setVideoPopup(true);
+                setCurrentMovie(current);
+              }}
+            >
+              {current ? (
+                <LazyLoadImage
+                  src={`${cred.thumbnail_url}${
+                    current?.backdrop_path || current?.poster_path
+                  }`}
+                  className="_card-cover"
+                  alt={current?.title}
+                  title={current.title}
+                />
+              ) : (
+                <ImageSkeleton class={"_card-cover"} />
+              )}
             </li>
           );
         })}

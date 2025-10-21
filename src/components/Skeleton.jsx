@@ -29,3 +29,7 @@ export const CarouselSkeleton = () => {
     </ul>
   );
 };
+
+export const ImageSkeleton = ({ styled }) => {
+  return <div className={`_skeleton --rouned ${styled}`}></div>;
+};

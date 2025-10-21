@@ -1,16 +1,23 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import requests, { options } from "../assets/requests";
 
 import { CarouselSkeleton, HeroSkeleton } from "../components/Skeleton";
-import Hero from "../components/Hero";
-import { useNavigate } from "react-router-dom";
+// import Hero from "../components/Hero";
+const Hero = lazy(() => import("../components/Hero"));
+import { Helmet } from "react-helmet-async";
+import Player from "../components/Player";
 const Carousel = lazy(() => import("../components/Carousel"));
+import { movieState, videoState } from "../assets/atom";
+import { useRecoilState } from "recoil";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
+  const [videoPopup, setVideoPopup] = useRecoilState(videoState);
+  const [currentMovie, setCurrentMovie] = useRecoilState(movieState);
 
   const [
     {
+      nowPlaying,
       trending,
       netflixOriginals,
       topRated,
@@ -21,11 +28,14 @@ const Home = () => {
       documentaries,
     },
     setCollections,
-  ] = useState({});
+  ] = useState([]);
+  const [movies, setMovies] = useState();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [
+          fetchNowPlaying,
           fetchTrending,
           fetchNetflixOriginals,
           fetchTopRated,
@@ -35,6 +45,7 @@ const Home = () => {
           fetchRomanceMovies,
           fetchDocumentaries,
         ] = await Promise.all([
+          fetch(requests.fetchNowPlaying, options).then((res) => res.json()),
           fetch(requests.fetchTrending, options).then((res) => res.json()),
           fetch(requests.fetchNetflixOriginals, options).then((res) =>
             res.json()
@@ -46,7 +57,9 @@ const Home = () => {
           fetch(requests.fetchRomanceMovies, options).then((res) => res.json()),
           fetch(requests.fetchDocumentaries, options).then((res) => res.json()),
         ]);
+
         setCollections({
+          nowPlaying: fetchNowPlaying.results,
           trending: fetchTrending.results,
           netflixOriginals: fetchNetflixOriginals.results,
           topRated: fetchTopRated.results,
@@ -82,12 +95,13 @@ const Home = () => {
     { name: "Top Rated", cat: topRated },
     { name: "Documentaries", cat: documentaries },
   ];
-
-  // const mylist = localStorage.getItem("mylist");
   return (
     <>
+      <Helmet>
+        <title>Netflix - Home</title>
+      </Helmet>
       <Suspense fallback={<HeroSkeleton />}>
-        <Hero movies={topRated} />
+        <Hero movies={nowPlaying} />
       </Suspense>
       <section id="carouselContainer">
         <Suspense fallback={<CarouselSkeleton />}>
@@ -103,12 +117,15 @@ const Home = () => {
             );
           })}
 
-          {/* <Carousel
-            collection={actionMovies}
-            name={"action movies"}
-            key={"action movies" || key}
-          /> */}
+          {
+            // <Carousel
+            //   collection={actionMovies}
+            //   name={"action movies"}
+            //   key={"action movies" || key}
+            // />
+          }
         </Suspense>
+        {videoPopup && <Player />}
       </section>
     </>
   );

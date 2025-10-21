@@ -1,3 +1,5 @@
+@import url("./player.css");
+
 /*  Menu  */
 #menu {
   width: 100%;
@@ -24,6 +26,7 @@
   background: transparent;
 }
 #menu > div {
+  /* flex: 1 1 300px; */
   display: flex;
   flex-flow: row;
   align-items: center;
@@ -32,7 +35,8 @@
   color: #fff;
 }
 .menu {
-  display: none;
+  flex: 1 1 430px;
+  display: flex;
   flex-flow: row;
   align-items: center;
   justify-content: center;
@@ -279,8 +283,10 @@
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  gap: 0 10px;
+  flex-wrap: nowrap;
+  gap: 15px 10px;
   overflow-x: scroll;
+  overflow-y: hidden;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -309,6 +315,7 @@
   object-fit: fill;
   /* object-position: center; */
   transition: transform 0.4s ease;
+  transform: scale(1);
 }
 .carousel ._container li > ._card-cover:hover {
   transform: scale(1.1);
@@ -350,9 +357,9 @@
 }
 
 @media (min-width: 768px) {
-  .menu {
+  /* .menu {
     display: flex;
-  }
+  } */
 }
 @media (max-width: 860px) {
   #searchInput {

@@ -2,19 +2,35 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, FieldValue, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../assets/firebase.js";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import { Helmet } from "react-helmet-async";
 
 const Sign = () => {
-  return (
-    <div className="_principal">
-      <ToastContainer />
-      <Signin view="_current" />
-      <Signup />
-    </div>
+  const [user, setUser] = useState();
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      setTimeout(() => {
+        setUser(user);
+      }, 300);
+    });
+  });
+  return user ? (
+    <Navigate to={"/"} />
+  ) : (
+    <>
+      <Helmet>
+        <title>Netflix - Sign in</title>
+      </Helmet>
+      <div className="_principal">
+        <ToastContainer />
+        <Signin view="_current" />
+        <Signup />
+      </div>
+    </>
   );
 };
 
@@ -56,42 +72,27 @@ const Signin = ({ view }) => {
   const handleSignin = async (e) => {
     e.preventDefault();
 
-    // try {
-    //   await signInWithEmailAndPassword(
-    //     auth,
-    //     credentials.email,
-    //     credentials.password
-    //   ).then(() => {
-    //     const f = document.getElementById("signin");
-    //     f.reset();
-    //     localStorage.setItem("logged", "true");
-    //     setTimeout(() => {
-    //       navigate("/");
-    //     }, 100);
-    //   }, localStorage.removeItem("logged"));
-    // } catch (err) {
-    //   console.error(err);
-    //   if (!sms?.classList.contains("--visible"))
-    //     sms?.classList.add("--visible");
-    // }
     try {
       signInWithEmailAndPassword(
         auth,
         credentials.email,
         credentials.password
       ).then(
-        () => {
+        async () => {
           const user = auth.currentUser;
           if (user) {
             const notify = toast.success(
-              "User created succefully! Just a sec...",
+              "Logged in succefully! Just a sec...",
               {
                 position: "bottom-right",
                 autoClose: false,
               }
             );
-
-            setTimeout(() => navigate("/"), 500);
+            await getDoc(doc(db, "users", user.uid)).then(
+              (data) => (user.displayName = data.get("userName"))
+            );
+            // user.displayName = credentials.uName;
+            setTimeout(() => navigate("/"), 1500);
           } else {
             const notify = toast.error(
               "Failed to login! Please check your credentials",
@@ -165,6 +166,7 @@ const Signin = ({ view }) => {
 const Signup = ({ view }) => {
   const sms = document.querySelector("._alert2");
   const [credentials, setCredentials] = useState({
+    uName: null,
     email: null,
     password: null,
   });
@@ -227,11 +229,13 @@ const Signup = ({ view }) => {
                 }
               );
               await setDoc(doc(db, "users", user.uid), {
+                userName: credentials.uName,
                 email: user.email,
-                userName: "user",
               });
+              user.displayName = credentials.uName;
               console.log("User created succefully!");
               setTimeout(() => {
+                // localStorage.setItem("user", credentials.uName);
                 switchBox("signup", "signin");
               }, 2100);
             }
@@ -263,6 +267,17 @@ const Signup = ({ view }) => {
       <form onSubmit={handleSignup} className={view} id="signup">
         <p className="_alert2">*please enter valid credentialas</p>
         <h1>sign up</h1>
+        <input
+          type="text"
+          name="userName"
+          className="field"
+          placeholder="Name"
+          required
+          id="signupName"
+          onChange={(e) => {
+            setCredentials({ ...credentials, uName: e.target.value });
+          }}
+        />
         <input
           type="email"
           name="userMail"

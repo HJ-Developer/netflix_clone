@@ -1,11 +1,11 @@
 import { Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import "./assets/pages.css";
-import "./assets/components.css";
-import "./assets/palette.css";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Footer from "./components/Footer";
+import { HelmetProvider } from "react-helmet-async";
+import { RecoilRoot } from "recoil";
+import Player from "./components/Player";
 
 const Menu = lazy(() => import("./components/Menu"));
 const Home = lazy(() => import("./routes/Home"));
@@ -14,13 +14,15 @@ const Sign = lazy(() => import("./routes/Sign"));
 const App = (props) => {
   return (
     <>
-      <Menu />
-      <Suspense>
-        <main id="mainContainer">
-          <Outlet />
-        </main>
-        <Footer />
-      </Suspense>
+      <RecoilRoot>
+        <Menu />
+        <Suspense>
+          <main id="mainContainer">
+            <Outlet />
+          </main>
+          <Footer />
+        </Suspense>
+      </RecoilRoot>
     </>
   );
 };
@@ -28,7 +30,11 @@ const App = (props) => {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <HelmetProvider>
+        <App />
+      </HelmetProvider>
+    ),
     children: [
       {
         path: "/",
@@ -38,10 +44,10 @@ const router = createBrowserRouter([
         path: "/sign",
         element: <Sign />,
       },
-      // {
-      //   path: "/signup",
-      //   element: <Signup />,
-      // },
+      {
+        path: "/movies",
+        element: <Player />,
+      },
     ],
   },
 ]);

@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { BellIcon, Search, User2Icon } from "lucide-react";
 import { useEffect } from "react";
+import { signOut } from "firebase/auth";
+import { auth } from "../assets/firebase";
 
 const Menu = () => {
   const currentHash = window.location.pathname;
@@ -65,12 +67,19 @@ const Menu = () => {
           </div>
           <div className="btns">
             <form>
-              <input type="search" name="searchInput" id="searchInput" />
+              {/* <input type="search" name="searchInput" id="searchInput" /> */}
               <i className="icon">
                 <Search className="--search" />
               </i>
             </form>
-            <i className="icon --notification">
+            <i
+              className="icon --notification"
+              onClick={() => {
+                signOut(auth);
+                localStorage.removeItem("user");
+                alert("signed out!");
+              }}
+            >
               <BellIcon />
             </i>
             <i className="icon --account">
