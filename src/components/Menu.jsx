@@ -36,19 +36,7 @@ const Menu = () => {
         <nav id="menu" className="_translucend _compaq-plus">
           <div>
             <i className="logo --menu" onClick={() => handleNavigate("/")}></i>
-            <i
-              className="icon"
-              onClick={() => {
-                signOut(auth);
-                const notify = toast.success("Logging out...", {
-                  position: "bottom-right",
-                  autoClose: 1200,
-                });
-                setTimeout(() => navigate("/"), 1500);
-              }}
-            >
-              sign out
-            </i>
+            <i className="icon">sign out</i>
           </div>
         </nav>
       </header>
@@ -77,33 +65,25 @@ const Menu = () => {
               <Link to={"/"} className="--li">
                 Home
               </Link>
-              <Link to={"/shows"} className="--li">
-                TV Shows
-              </Link>
-              <Link to={"/movies"} className="--li">
-                Movies
-              </Link>
-              <Link to={"/news"} className="--li">
-                News & Popular
-              </Link>
-              <Link to={"/sign"} className="--li">
-                My List
-              </Link>
+              <Link className="--li _disabled">TV Shows</Link>
+              <Link className="--li _disabled">Movies</Link>
+              <Link className="--li _disabled">News & Popular</Link>
+              <Link className="--li _disabled">My List</Link>
             </ul>
           </div>
           <div className="btns">
-            <form>
+            <form className="_disabled">
               {/* <input type="search" name="searchInput" id="searchInput" /> */}
               <i className="icon">
                 <Search className="--search" />
               </i>
             </form>
-            <i className="icon --notification">
+            <i className="icon --notification  _disabled">
               <BellIcon />
             </i>
             <i
               className="icon --account"
-              onClick={() => handleNavigate("/subscription")}
+              onClick={() => handleNavigate("/account")}
             >
               <User2Icon />
             </i>

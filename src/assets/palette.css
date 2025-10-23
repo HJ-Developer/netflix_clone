@@ -21,6 +21,7 @@
     var(--text-highlight) 0%,
     var(--dark-red) 100%
   );
+  --btnBackground-light: linear-gradient(90deg, transparent 0%, #53535349 100%);
 }
 @media (prefers-color-scheme: light) {
   :root {

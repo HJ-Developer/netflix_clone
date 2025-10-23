@@ -1,13 +1,40 @@
 import { auth } from "../assets/firebase";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { CheckIcon } from "lucide-react";
 import { useRecoilState } from "recoil";
 import { subscriptionState } from "../assets/atom";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { Helmet } from "react-helmet-async";
 
 const Subscription = () => {
   const [subscription, setSubscription] = useRecoilState(subscriptionState);
   const [currentPlan, setCurrentPlan] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const allowed = sessionStorage.getItem("safeToSubscribe");
+    if (!allowed) {
+      if (auth.currentUser) {
+        const notify = toast.error("You must be log in first!", {
+          position: "bottom-right",
+          autoClose: 1200,
+        });
+        return;
+      }
+      const notify = toast.error("Please use the account area!", {
+        position: "bottom-right",
+        autoClose: 1200,
+      });
+      setTimeout(() => {
+        navigate("/account");
+      }, 1500);
+    } else {
+      setTimeout(() => {
+        sessionStorage.removeItem("safeToSubscribe");
+      }, 500);
+    }
+  }, []);
 
   useEffect(() => {
     const btn = document.getElementById("subscribeBtn");
@@ -39,13 +66,21 @@ const Subscription = () => {
   };
   const handleSubscription = () => {
     console.log(subscription);
-    // if (subscription)
+    if (subscription) {
+      sessionStorage.setItem("safeToCheckout", "true");
+      setTimeout(() => {
+        navigate("/checkout");
+      }, 500);
+    } else {
+      alert("need to choose a plan!");
+    }
   };
 
-  return !auth.currentUser ? (
-    <Navigate to={"/"} />
-  ) : (
+  return (
     <section className="_subsContainer">
+      <Helmet>
+        <title>Netflix - Subscription</title>
+      </Helmet>
       <div className="_sub">
         <div className="--box -first">
           <h2>Choose the plan tht's right for you</h2>

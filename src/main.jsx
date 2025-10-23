@@ -12,6 +12,8 @@ const Menu = lazy(() => import("./components/Menu"));
 const Home = lazy(() => import("./routes/Home"));
 const Sign = lazy(() => import("./routes/Sign"));
 const Subscription = lazy(() => import("./routes/Subscription"));
+const Checkout = lazy(() => import("./routes/Checkout"));
+const Account = lazy(() => import("./routes/Account"));
 
 const App = (props) => {
   return (
@@ -51,7 +53,18 @@ const router = createBrowserRouter([
         path: "/movies",
         element: <Player />,
       },
-      { path: "/subscription", element: <Subscription /> },
+      {
+        path: "/subscription",
+        element: <Subscription />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />,
+      },
+      {
+        path: "/account",
+        element: <Account />,
+      },
     ],
   },
 ]);
